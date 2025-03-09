@@ -6,7 +6,37 @@ This is our main file to get input from the user or file and parse the file and 
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "token.h"
+#include "scanner.h"
+#include "testScanner.h"
 int main(int argc, char *argv[]) 
 {
+    std::string input;
 
+    if (argc == 1)
+    {
+        std::cout << "Keep typeing until 'ctrl + d' is entered to end input: \n";
+        while (getline(std::cin, input))
+        {
+            testScanner(input);
+        }
+    }
+    else if (argc == 2)
+    {
+        std::ifstream file(argv[1]);
+        if (!file)
+        {
+            std::cerr << "Error: File not found" << std::endl;
+            return 1;
+        }
+        while (getline(file, input))
+        {
+            testScanner(input);
+        }
+    }
+    else
+    {
+        std::cerr << "Error: Too many arguments" << std::endl;
+        return 1;
+    }
 }

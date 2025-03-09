@@ -1,8 +1,8 @@
-#ifndef token.h
-#define token .h
+#ifndef token_h
+#define token_h
 #include <string>
-char nextChar;
-int Table[6][6] =
+const std::string tokenNames[] = {"t1 token", "t2 token", "t3 token", "EOF token"};
+const int Table[6][6] =
     {
         {1000, 1, -1, 3, 5, 0},
         {-2, -2, 2, -2, -2, -2},
@@ -18,12 +18,10 @@ enum tokenID
     t3_tk,
     EOF_tk
 };
-std::string tokenNames[] = {"t1 token", "t2 token", "t3 token", "EOF token"};
-
 struct token_t
 {
     tokenID id;
-    std::string name = tokenNames[id];
+    std::string name;
     int lineNum;
 };
 

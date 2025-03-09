@@ -5,6 +5,6 @@
 #include <string>
 #include "token.h"
 
-token_t FADriver();
-token_t token_IN(int);
+token_t scanner(std::string);
+token_t token_IN(int, std::string);
 #endif
