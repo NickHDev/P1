@@ -12,104 +12,108 @@ token_t token_IN(int ID, std::string S)
         switch (ID)
         {
         case 1000:
-            tk.id = t1_tk;
-            return tk;
-            break;
-        case 1001:
-            tk.id = t2_tk;
-            return tk;
-            break;
-        case 1002:
-            tk.id = t3_tk;
-            return tk;
-            break;
-        case 1003:
             tk.id = EOF_tk;
             return tk;
             break;
+        case 1001:
+            tk.id = t1_tk;
+            return tk;
+            break;
+        case 1002:
+            tk.id = t2_tk;
+            return tk;
+            break;
+        case 1003:
+            tk.id = t3_tk;
+            return tk;
+            break;
         default:
-            perror("Error: Invalid token");
+            printf("Error: Invalid token in token in");
             exit(1);
         }
     }
-    else if (ID < 0)
-    {
-        perror("invalid token less than 0");
-        exit(1);
-    }
     else
     {
-        if (ID == 0)
-        {
-            tk.lineNum++;
-        }
         return tk;
     }
 }
 
-token_t scanner(std::string input)
+token_t scanner(std::string input, char nextChar)
 {
     int state = 0;
     int nextState = 0;
-    char nextChar = input[0];
     int lineNum = 1;
     int colNum = 0;
+    int index = 0;
     std::string S = "";
-    if (nextChar >= 33 && nextChar <= 41)
-    {
-        colNum = 0;
-    }
-    else if (nextChar == '+' && S.length() == 0)
-    {
-        colNum = 1;
-    }
-    else if (nextChar >= 97 && nextChar <= 122)
-    {
-        colNum = 2;
-    }
-    else if (nextChar >= 65 && nextChar <= 90)
-    {
-        colNum = 2;
-    }
-    else
-    {
-        colNum = 5;
-    }
-
+    std::cout << "nextChar in scanner is " << nextChar << std::endl;
+    std::cout << "input in scanner is " << input << std::endl;
     while (state < 1000 && state >= 0)
     {
-        if (nextChar >= 33 && nextChar <= 41)
+        if (nextChar == ' ')
         {
-            colNum = 0;
+            colNum = 5;
         }
-        else if (nextChar >= 97 && nextChar <= 122)
+        else if (nextChar >= 33 && nextChar <= 41)
+        {
+            colNum = 4;
+        }
+        else if (nextChar == '+')
+        {
+            colNum = 3;
+        }
+        else if (nextChar >= 48 && nextChar <= 57)
         {
             colNum = 2;
         }
         else if (nextChar >= 65 && nextChar <= 90)
         {
-            colNum = 2;
+            colNum = 1;
         }
-        else {
-            colNum = 5;
+        else if (nextChar >= 97 && nextChar <= 122)
+        {
+            colNum = 1;
         }
-        std::cout << nextChar << std::endl;
+        else if (nextChar == EOF || nextChar == '\n' || nextChar == 10)
+        {
+            colNum = 0;
+        }
+        else 
+        {
+            printf("Error: Invalid character : less than 0");
+            exit(1);
+        }
+        std::cout << "colNum is " << colNum << " After assign" << std::endl;
+        std::cout << "nextChar is " << nextChar << " After assign" << std::endl;
+        std::cout << "state is " << state << " After assign" << std::endl;
         nextState = Table[state][colNum];
         if (nextState < 0)
         {
-            perror("Error: Invalid character");
+            printf("Error: Invalid character : less than 0");
             exit(1);
         }
         if (nextState >= 1000)
         {
-            token_IN(nextState, S);
             return token_IN(nextState, S);
         }
         else
         {
             state = nextState;
-            S.append(nextChar, 1);
-            nextChar = getchar();
+            S.push_back(nextChar);
+            std::cout << "Buffer String: " << S << std::endl;
+            index++;
+            if (input[index] == '\n' || input[index] == EOF)
+            {
+                lineNum++;
+                return token_IN(nextState, S);
+            }
+            else
+            {
+                nextChar = input[index];
+            }
+
+            std::cout << "Upcomng char is " << nextChar << std::endl;
         }
     }
+    return token_IN(nextState, S);
 }

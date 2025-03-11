@@ -3,5 +3,5 @@
 #include <iostream>
 #include <fstream>
 #include "scanner.h"
-void testScanner(std::string);
+void testScanner(std::string, char);
 #endif

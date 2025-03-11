@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
         std::cout << "Keep typeing until 'ctrl + d' is entered to end input: \n";
         while (getline(std::cin, input))
         {
-            testScanner(input);
+            testScanner(input, std::cin.get());
         }
     }
     else if (argc == 2)
@@ -31,7 +31,8 @@ int main(int argc, char *argv[])
         }
         while (getline(file, input))
         {
-            testScanner(input);
+            std::cout << input << " Input In main." <<  std::endl;
+            testScanner(input, input[0]);
         }
     }
     else
