@@ -6,19 +6,25 @@ This is our main file to get input from the user or file and parse the file and 
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include "token.h"
 #include "scanner.h"
 #include "testScanner.h"
-int main(int argc, char *argv[]) 
+char nextChar;
+int colNum = 0;
+int main(int argc, char *argv[])
 {
     std::string input;
+    int lineNum = 0;
 
     if (argc == 1)
     {
         std::cout << "Keep typeing until 'ctrl + d' is entered to end input: \n";
         while (getline(std::cin, input))
         {
-            testScanner(input, std::cin.get());
+            nextChar = input[0];
+            testScanner(input, lineNum, colNum);
+            lineNum++;
         }
     }
     else if (argc == 2)
@@ -29,10 +35,15 @@ int main(int argc, char *argv[])
             std::cerr << "Error: File not found" << std::endl;
             return 1;
         }
-        while (getline(file, input))
+        else
         {
-            std::cout << input << " Input In main." <<  std::endl;
-            testScanner(input, input[0]);
+            while (getline(file, input))
+            {
+                nextChar = input[0];
+                std::cout << " input in main" << input << std::endl;
+                testScanner(input, lineNum, colNum);
+                lineNum++;
+            }
         }
     }
     else
