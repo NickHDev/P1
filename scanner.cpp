@@ -1,3 +1,8 @@
+/*
+Author: Nicholas Hieb
+Date Created: 3/05/2025
+This is the scanner to parse the input and return tokens.
+*/
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -5,7 +10,8 @@
 #include "scanner.h"
 inputChar nextChar;
 int lineNum = 0;
-
+// Scanner Driver that takes in a file and returns a token
+// OR3 and in class code
 token_t scanner(FILE *input)
 {
     int state = 0;
@@ -56,7 +62,8 @@ token_t scanner(FILE *input)
     }
     return tk;
 }
-
+// Filter the next character and return a character struct
+// OR2
 inputChar filter(FILE *input)
 {
     inputChar ic;
@@ -94,7 +101,8 @@ inputChar filter(FILE *input)
         exit(1);
     }
 }
-
+// Column number of the character that returns a int
+// OR1
 int getColNum(char c)
 {
     if (isspace(c))
@@ -127,11 +135,11 @@ int getColNum(char c)
     }
     else if (c == '*')
     {
-        return '*';
+        return 6;
     }
     else if (c == '/')
     {
-        return '/';
+        return 7;
     }
     else
     {
@@ -139,7 +147,8 @@ int getColNum(char c)
         return -1;
     }
 }
-
+// Set the lookahead
+// OR1
 void setLookAhead(FILE *input)
 {
     nextChar = filter(input);
