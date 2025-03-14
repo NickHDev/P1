@@ -25,4 +25,11 @@ struct token_t
     int lineNum;
 };
 
+struct inputChar
+{
+    char c;
+    int colNum;
+    int lineNum;
+};
+
 #endif
